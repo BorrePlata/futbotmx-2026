@@ -60,7 +60,7 @@ in the **U-CogNet arm** and compare both rigorously:
 
 ```bash
 # 1. Clone the submission repo
-git clone <REPO_URL> futbotmx
+git clone https://github.com/BorrePlata/futbotmx-2026.git futbotmx
 cd futbotmx
 
 # 2. Create a dedicated virtual environment
@@ -255,7 +255,7 @@ futbotmx/
   author = {Plata, Samuel},
   year   = {2026},
   note   = {Copa FutBotMX 2026 Computer Vision Challenge, Profesional category},
-  url    = {https://github.com/<TBD>/futbotmx},
+  url    = {https://github.com/BorrePlata/futbotmx-2026},
 }
 ```
 
