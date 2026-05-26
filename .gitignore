@@ -31,3 +31,7 @@ manifest_runs/
 
 # HuggingFace cache (we point HF_HOME to F:)
 .cache/
+
+# But ship the paper deliverables (small, required by Copa FutBotMX 3.5.3)
+!paper/demo.mp4
+!paper/reel.mp4
