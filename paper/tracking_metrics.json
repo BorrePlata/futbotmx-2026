@@ -1,0 +1,52 @@
+{
+  "schema": "futbotmx.tracking.v1",
+  "iou_thresh": 0.3,
+  "max_age": 5,
+  "overall": {
+    "total_gt": 1229,
+    "fp": 51,
+    "fn": 0,
+    "id_switches": 11,
+    "n_matches": 1229,
+    "mota": 0.9496,
+    "motp": 1.0
+  },
+  "per_class": {
+    "ball": {
+      "total_gt": 33,
+      "fp": 6,
+      "fn": 0,
+      "id_switches": 0,
+      "mota": 0.8182,
+      "motp": 1.0,
+      "n_matches": 33
+    },
+    "field": {
+      "total_gt": 114,
+      "fp": 4,
+      "fn": 0,
+      "id_switches": 0,
+      "mota": 0.9649,
+      "motp": 1.0,
+      "n_matches": 114
+    },
+    "hand": {
+      "total_gt": 615,
+      "fp": 41,
+      "fn": 0,
+      "id_switches": 1,
+      "mota": 0.9317,
+      "motp": 1.0,
+      "n_matches": 615
+    },
+    "robot": {
+      "total_gt": 467,
+      "fp": 0,
+      "fn": 0,
+      "id_switches": 10,
+      "mota": 0.9786,
+      "motp": 1.0,
+      "n_matches": 467
+    }
+  }
+}

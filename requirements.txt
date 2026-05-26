@@ -1,0 +1,41 @@
+# futbotmx — Copa FutBotMX 2026 Visión por Computadora
+# Apache 2.0 — see LICENSE.  SAM 3 weights subject to Meta's SAM License.
+#
+# Hardware target: single GPU ≥ 8 GB VRAM (fp16 inference).
+# Tested on: RTX 4060 Laptop 8.6 GB, CUDA 12.1, Python 3.12.
+
+# ── Core ML ───────────────────────────────────────────────────────
+torch>=2.5,<2.7
+torchvision>=0.20
+transformers>=4.50,<5
+accelerate>=1.0
+huggingface_hub>=0.29
+safetensors>=0.4
+
+# ── SAM 3 (Segment Anything Model 3, Meta AI) ─────────────────────
+# Installed directly from the official GitHub repository because the
+# package is not yet on PyPI as of Q2 2026.  Re-run after acceptance
+# of the SAM License at https://huggingface.co/facebook/sam3.
+# sam3 @ git+https://github.com/facebookresearch/sam3.git
+
+# ── Tracking + annotation ─────────────────────────────────────────
+supervision>=0.25            # roboflow — annotators, ByteTrack adapter
+# bytetracker installed via supervision; standalone optional:
+# bytetracker>=0.4
+
+# ── Vision / video I/O ────────────────────────────────────────────
+opencv-python>=4.8
+Pillow>=10.0
+numpy>=1.26,<2.3
+scipy>=1.13
+
+# ── Visualisation ─────────────────────────────────────────────────
+matplotlib>=3.8
+shapely>=2.0                 # Voronoi cells, polygon ops
+networkx>=3.2                # pass-graph
+
+# ── Repro / Evidence Manifest ─────────────────────────────────────
+PyYAML>=6.0
+
+# ── Quality of life ───────────────────────────────────────────────
+tqdm>=4.66

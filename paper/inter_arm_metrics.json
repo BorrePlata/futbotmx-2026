@@ -1,0 +1,29 @@
+{
+  "schema": "futbotmx.inter_arm.v1",
+  "frames_compared": 133,
+  "detection_agreement_per_class": {
+    "ball": 1.0,
+    "field": 1.0,
+    "goal": 1.0,
+    "hand": 1.0,
+    "robot": 1.0
+  },
+  "ucognet_adds": {
+    "model_break_events": 7,
+    "model_break_post_warmup": 7,
+    "spatial_reads_emitted": 7,
+    "spatial_read_sample": [
+      "se concentra en la izquierda, sobre todo Team Left",
+      "se concentra en la izquierda, sobre todo Team Left",
+      "se concentra en la izquierda, sobre todo Team Left"
+    ],
+    "free_energy_final": 0.0904,
+    "phi_final": 0.5179,
+    "understanding_final": 0.8315
+  },
+  "latency_overhead": {
+    "mean_ms": 195.13,
+    "p95_ms": 445.11,
+    "mean_pct": 20.98
+  }
+}

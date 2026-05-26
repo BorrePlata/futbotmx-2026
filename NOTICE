@@ -1,0 +1,77 @@
+futbotmx — Copa FutBotMX 2026, Capítulo Visión por Computadora
+================================================================
+
+Copyright 2026 Brainstream / U-CogNet research platform
+Project lead: Samuel Plata
+
+This project's source code is distributed under the Apache License 2.0
+(see LICENSE).  Third-party model weights downloaded at runtime are
+governed by their own licenses — see below.
+
+License separation (read carefully before redistributing):
+  • Code in this repository           → Apache License 2.0  (file: LICENSE)
+  • SAM 3 model weights (NOT bundled) → SAM License, Meta   (file: LICENSE-SAM)
+  • Tournament videos (NOT bundled)   → Federación Mexicana de Robótica
+
+We DO NOT redistribute SAM 3 weights with this code.  Users must accept
+Meta's SAM License at https://huggingface.co/facebook/sam3 and download
+the weights into their own environment (see README § 2.2).  A reference
+copy of the SAM License is included in this repository as LICENSE-SAM
+purely to satisfy SAM License clause 1.b.i (downstream redistribution
+must "provide a copy of this Agreement with any such SAM Materials"),
+which we interpret conservatively for derivative-works distribution.
+
+THIRD-PARTY COMPONENTS
+----------------------
+
+This project uses the following third-party models and libraries.  Their
+own licenses apply to their respective contents — Apache 2.0 governs only
+the code authored by this project.
+
+1. SAM 3 (Segment Anything Model 3)
+   - Authors: Carion et al., Meta AI (2025)
+   - Paper:   arXiv:2511.16719
+   - Source:  https://github.com/facebookresearch/sam3
+   - Weights: https://huggingface.co/facebook/sam3
+   - License: SAM License (Meta) — see the LICENSE file in the upstream
+              repository.  The model weights are NOT redistributed by
+              this project; users must accept Meta's SAM License at the
+              Hugging Face model page before downloading.
+   - Use:     SAM 3 is used as the primary segmentation + tracking
+              backbone for robot-soccer video analysis.
+
+2. ByteTrack
+   - License: MIT
+   - Source:  https://github.com/ifzhang/ByteTrack
+   - Use:     Multi-object tracking for stable robot/ball IDs across
+              frames (optional adjunct to SAM 3's native tracker).
+
+3. Roboflow Supervision
+   - License: MIT
+   - Source:  https://github.com/roboflow/supervision
+   - Use:     Annotation, drawing and tracking utilities.
+
+4. OpenCV (cv2)
+   - License: Apache 2.0
+   - Source:  https://opencv.org/
+   - Use:     Video I/O, frame extraction, drawing overlays.
+
+5. PyTorch + torchvision
+   - License: BSD-3-Clause
+   - Source:  https://pytorch.org/
+   - Use:     Tensor compute and model serving.
+
+6. transformers, accelerate, huggingface_hub
+   - License: Apache 2.0
+   - Source:  https://huggingface.co/
+   - Use:     Model loading from Hugging Face Hub.
+
+ATTRIBUTIONS
+------------
+
+This project was developed for the Copa FutBotMX 2026 challenge organised
+by Secretaría de Ciencia, Humanidades, Tecnología e Innovación (Secihti)
+and Meta, with video material provided by Federación Mexicana de Robótica.
+
+Match videos are NOT redistributed by this project.  See the Copa FutBotMX
+official site for access: https://secihti.mx/futbotmx/.

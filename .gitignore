@@ -1,0 +1,33 @@
+# Local-only caches / data — never commit
+__pycache__/
+*.pyc
+*.pyo
+
+# Models (downloaded separately per SAM License)
+weights/
+*.pt
+*.pth
+*.safetensors
+*.bin
+
+# Videos + frames + intermediate outputs
+videos/
+frames/
+output/
+runs/
+*.mp4
+*.mov
+*.webm
+*.avi
+
+# Evidence manifests (regenerated)
+manifest_runs/
+*.manifest.json
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# HuggingFace cache (we point HF_HOME to F:)
+.cache/
