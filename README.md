@@ -264,7 +264,7 @@ futbotmx/
 ## 9. Contact
 
 - **Author:** Samuel Plata
-- **Email:** samuel.plata@brainstream.pro
+- **Email:** samuel@brainstream.pro
 - **Affiliation:** [Brainstream](https://brainstream.pro) /
   [U-CogNet research platform](https://ucognet.pro)
 

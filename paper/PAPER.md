@@ -4,7 +4,7 @@
 FutBotMX 2026 Computer Vision Challenge, Profesional category.*
 
 **Authors:** Samuel Plata — Brainstream / U-CogNet research platform
-**Contact:** samuel.plata@brainstream.pro · https://ucognet.pro
+**Contact:** samuel@brainstream.pro · https://ucognet.pro
 **License:** Apache 2.0 (code) · SAM License (model weights, Meta AI)
 **Repository:** https://github.com/BorrePlata/futbotmx-2026
 
