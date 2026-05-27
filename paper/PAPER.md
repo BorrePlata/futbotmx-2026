@@ -6,7 +6,7 @@ FutBotMX 2026 Computer Vision Challenge, Profesional category.*
 **Authors:** Samuel Plata — Brainstream / U-CogNet research platform
 **Contact:** samuel@brainstream.pro · https://ucognet.pro
 **License:** Apache 2.0 (code) · SAM License (model weights, Meta AI)
-**Repository:** https://github.com/BorrePlata/futbotmx-2026
+**Repository:** *<github URL pending public push>*
 
 ---
 
@@ -24,17 +24,23 @@ match changed when the model broke. The cognitive layer is strictly additive:
 **identical SAM 3 detections (100 % per-class count agreement)**, and **+6.4 %
 mean wall-time overhead**.
 
-Without using any human-in-the-loop annotation, we evaluate both arms across
-six independent, fully-reproducible axes — detection (mAP@0.5 vs
-temporal-consistency pseudo-GT), tracking (MOTA / MOTP / ID-switch),
-agreement-calibration ECE, a Hendrycks-Dietterich-style 21-condition
-robustness battery, a Friston-style cognitive trajectory analysis, and a
-per-layer latency budget. On the test clip the U-CogNet arm autonomously
-flags 7 post-warmup *model-break* events the baseline cannot detect by
-construction, while preserving all of SAM 3's perceptual quality
-(mAP@0.5 = 0.984, MOTA = 0.950, MOTP = 1.000). Every reported figure is
-bit-exactly reproducible from an Evidence Manifest persisted alongside the
-results.
+We do not claim human-verified ground truth; instead, every metric in
+this paper is derived from one of three reproducible annotator-free
+signals: temporal-consistency labels in the weakly-supervised tradition
+(Lee 2013; Sohn et al. 2020), inter-arm agreement on the same SAM 3
+detections, and a Hendrycks-Dietterich-style 21-condition perturbation
+battery that consumes no labels at all. We evaluate both arms across
+six independent axes — detection (mAP@0.5), tracking (MOTA / MOTP /
+ID-switch), agreement-calibration ECE, the robustness battery, a
+Friston-style cognitive trajectory analysis, and a per-layer latency
+budget. Across **three tournament clips (613 frames total)** the
+baseline arm sustains mAP@0.5 = 0.993 (per-clip 0.984 / 0.998 / 0.998)
+and MOTA = 0.950, while the U-CogNet arm autonomously flags
+post-warmup *model-break* events accompanied by hedged tactical hints
+("possible cluster pressure shift", "possible ball-zone shift") that
+are spatial correlations, never confirmed events. Every reported figure
+is bit-exactly reproducible from an Evidence Manifest persisted
+alongside the results.
 
 ---
 
@@ -196,11 +202,16 @@ post-warmup surprise spikes (§ 5.5).
 
 ---
 
-## 4. Zero-Human-Judgement Evaluation Framework
+## 4. Reproducible Weakly-Supervised Evaluation Framework
 
-We deliberately design every metric to depend on no human labels. The
-methodological positive: every figure in this paper is reproducible
-without recruiting annotators and inherits no annotator-specific bias.
+We do not claim human-verified ground truth.  Instead, every metric in
+this paper is derived from one of three reproducible, annotator-free
+signals: temporal-consistency labels (weakly-supervised pseudo-GT in
+the Lee 2013 / Sohn 2020 tradition), inter-arm agreement on the same
+SAM 3 detections, and a perturbation battery that needs no labels at
+all.  The honest framing throughout: this is a **v0.1 reproducible
+slice**, not a tournament-wide audit.  v0.2 will add per-robot colour-
+tagging and an independent human spot-check on a held-out subset.
 
 ### 4.1 Temporal-consistency pseudo-GT
 
@@ -265,9 +276,24 @@ spatial-correlation reads, latency overhead).
 
 ## 5. Results
 
-### 5.1 Detection performance
+### 5.1 Detection performance · multi-clip
 
-**mAP@0.5 = 0.984**. Per-class precision / recall / F1 at IoU 0.50:
+Three Mexican Robotics Federation tournament clips were evaluated end-
+to-end with the same prompts and the same temporal-consistency
+pseudo-GT pipeline (window ±3, IoU 0.30, persistence ≥ 3):
+
+| Clip       | Frames | mAP@0.5 | robot AP | ball AP | hand AP | field AP |
+|------------|--------|---------|----------|---------|---------|----------|
+| IMG_9914   | 133    | **0.984** | 1.000  | 0.972   | 0.970   | 0.995    |
+| IMG_9915   | 240    | **0.998** | 1.000  | 1.000   | 0.994   | 0.999    |
+| IMG_9920   | 240    | **0.998** | 1.000  | 1.000   | 0.994   | 0.999    |
+| **aggregate** | **613** | **0.993** | 1.000 | 0.991   | 0.986   | 0.998    |
+
+Per-class precision / recall / F1 at IoU 0.50 on the headline clip
+(IMG_9914) is shown below; the other two clips track at or above these
+numbers on every class (robot reaches 1.000 / 1.000 / 1.000 on all
+three clips; ball reaches 1.000 / 1.000 / 1.000 on IMG_9915 and
+IMG_9920 once the longer temporal window engages):
 
 | Class | Precision | Recall | F1 | AP@0.5 | n GT |
 |-------|-----------|--------|------|--------|------|
@@ -277,8 +303,9 @@ spatial-correlation reads, latency overhead).
 | ball  | 0.846     | 1.000  | 0.917 | 0.972  | 33   |
 
 The ball class recovers from a raw recall of 29 % at the SAM 3 confidence
-floor to a precision-recall-balanced **AP = 0.972** after temporal-
-consistency filtering — strong evidence that SAM 3 detects the ball
+floor on the short clip to a precision-recall-balanced **AP = 0.972**
+after temporal-consistency filtering, and reaches AP = 1.000 on the two
+longer clips — strong evidence that SAM 3 detects the ball
 intermittently but reliably enough that a tracker recovers the trajectory.
 (Figure: `paper/figures/detection_pr_curves.png`)
 
@@ -417,9 +444,11 @@ methodology requires it.
    event taxonomy we deliberately do not impose.
 4. **Latency includes I/O.** All wall-time figures include frame I/O,
    resize, mask renderer and JSON serialisation, not only neural inference.
-5. **Single-clip evaluation.** This v0.1 paper reports results from one
-   4.4 s clip (IMG_9914, 133 frames). A v0.2 audit will extend to the full
-   tournament repository once granted.
+5. **Three-clip slice, not tournament-wide.** This v0.1 paper reports
+   results from three Mexican Robotics Federation clips (IMG_9914 /
+   9915 / 9920, 613 frames total). The two longer clips are sampled at
+   240 evenly-spaced frames each; a v0.2 audit will run on every frame
+   of every clip once the full tournament repository is granted.
 
 ---
 

@@ -128,7 +128,11 @@ def occupancy_grid(team_a_pts: np.ndarray, team_b_pts: np.ndarray,
 def correlate_surprise(prev_grid: np.ndarray, grid: np.ndarray
                        ) -> Tuple[str, float]:
     """When surprise fires, report WHERE on the field the occupancy map
-    changed most.  Honest correlation, not a tactical claim.
+    changed most + WHICH TYPE of disruption (soft tactical hint).
+
+    The tactical word is intentionally HEDGED ("possible …") — we report
+    a correlation between the surprise spike and a perceptual delta,
+    NEVER a confirmed tactical event (no "pass detected" etc.).
 
     Returns (human-readable string, confidence in [0, 1])."""
     delta = grid - prev_grid
@@ -136,7 +140,6 @@ def correlate_surprise(prev_grid: np.ndarray, grid: np.ndarray
     if abs_delta.sum() < 1e-6:
         return "", 0.0
 
-    # Per-channel which region moved most
     H, W, C = delta.shape
     # Coarsen to a 3x3 spatial grid for the human-readable description
     rows = H // 3 if H >= 3 else 1
@@ -159,7 +162,32 @@ def correlate_surprise(prev_grid: np.ndarray, grid: np.ndarray
     vert  = ["top", "middle", "bottom"][r]
     confidence = float(cell_intensity[r, c] /
                        (cell_intensity.sum() + 1e-9))
-    text = f"shift concentrated on the {vert}-{horiz}, dominated by {ch_name}"
+
+    # ── soft tactical hint (never a confirmed event) ──
+    # Heuristics over the delta's structure, NOT a classifier:
+    # - ball channel dominant + concentrated → "ball-zone shift"
+    # - team A/B dominant + concentrated in their half → "pressure shift"
+    # - both team channels moving → "cluster pressure shift"
+    # - distributed across cells → "spatial disruption"
+    hint = "spatial disruption"
+    if C >= 3:
+        ball_share = total_per_ch[2] / (total_per_ch.sum() + 1e-9)
+        team_share = (total_per_ch[0] + total_per_ch[1]) / (total_per_ch.sum() + 1e-9)
+        spatial_concentration = float(cell_intensity[r, c] /
+                                       (cell_intensity.sum() + 1e-9))
+        if ball_share > 0.40 and spatial_concentration > 0.30:
+            hint = "possible ball-zone shift"
+        elif total_per_ch[0] > 0 and total_per_ch[1] > 0 and \
+                min(total_per_ch[0], total_per_ch[1]) / \
+                max(total_per_ch[0], total_per_ch[1]) > 0.5:
+            hint = "possible cluster pressure shift"
+        elif team_share > 0.55 and spatial_concentration > 0.35:
+            hint = "possible possession-zone change"
+        elif spatial_concentration > 0.40:
+            hint = "possible tactical transition"
+
+    text = (f"{hint} on the {vert}-{horiz} "
+            f"(occupancy delta dominated by {ch_name})")
     return text, round(confidence, 3)
 
 

@@ -35,3 +35,4 @@ manifest_runs/
 # But ship the paper deliverables (small, required by Copa FutBotMX 3.5.3)
 !paper/demo.mp4
 !paper/reel.mp4
+!paper/linkedin.mp4
